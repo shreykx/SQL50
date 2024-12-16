@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+<!-- Start Generation Here -->
+<!-- Start of Selection -->
+<!-- Start of Selection -->
+<!-- Start of Selection -->
+<div class="flex flex-col items-center m-4 p-4 bg-white rounded-xl border">
+    <label for="ratingSlider" class="text-lg font-medium mb-2">You want show above what rating (1 to 10):</label>
+    <input type="range" id="ratingSlider" name="rating" min="1" max="10" value="1" step="0.1" 
+        oninput="this.style.backgroundSize = ((this.value - this.min) / (this.max - this.min)) * 100 + '% 100%', this.nextElementSibling.value = this.value;" 
+        class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer">
+    <output class="text-xl font-medium mt-2">1</output>
+    <button onclick="handleSliderChange(document.getElementById('ratingSlider').value)" class="mt-4 px-6 py-2 rounded-full bg-blue-600 text-white font-medium shadow active:bg-blue-800">Get Shows</button>
+</div>
+
+<style>
+    input[type="range"] {
+        background: linear-gradient(to right, #4CAF50 0%, #4CAF50 0%, #ccc 0%, #ccc 100%);
+        background-size: 0% 100%;
+        background-repeat: no-repeat;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #4CAF50;
+        cursor: pointer;
+    }
+    input[type="range"]::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #4CAF50;
+        cursor: pointer;
+    }
+</style>
+
+<!-- End of Selection -->
+<!-- End of Selection -->
+<div class="p-2 w-screen flex items-center justify-center">
+    <div class="border w-[60%] border rounded-xl overflow-hidden" id="showsContainer"></div>
+</div>
+
+<script>
+    function renderShowButtons(shows) {
+        const container = document.getElementById('showsContainer');
+        container.innerHTML = ''; // Clear previous buttons
+        shows.forEach(show => {
+            const button = document.createElement('button');
+            button.className = 'px-4 py-2 hover:bg-gray-200 w-full font-bold';
+            button.textContent = show; // Set button text to show name
+            container.appendChild(button); // Append button to container
+        });
+    }
+
+</script>
+<script>
+    function handleSliderChange(value) {
+        console.log(value);
+        fetch(`/ratings/${value}`)
+        .then((response)=> {
+            if (response.ok) {
+                return response.json()
+            }
+        }).then((data)=> {
+            console.log(data);
+
+            renderShowButtons(data)
+            
+        })
+        // Function to be implemented later
+    }
+</script>
+<!-- End Generation Here -->
+</body>
+</html>
